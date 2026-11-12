@@ -143,11 +143,14 @@ Booking the same court for an overlapping range answers `409` with a problem det
 Run them from `backend/`:
 
 ```bash
-mvn test
+mvn test      # unit tests only: fast, no Docker needed
+mvn verify    # unit tests, then integration tests: Docker must be running
 ```
 
-**Docker must be running.** Most of the tests start a real PostgreSQL 16 in a container with
-Testcontainers, and they fail at startup if Docker is not available.
+Unit tests are named `*Test` and run in the `test` phase (Surefire). Integration tests are named
+`*IT` and run later, in the `integration-test` phase (Failsafe), so a plain `mvn test` stays fast
+and never needs Docker. The integration tests start a real PostgreSQL 16 in a container with
+Testcontainers and fail at startup if Docker is not available.
 
 | Kind | What it covers | Needs Docker |
 |---|---|---|
@@ -162,9 +165,8 @@ exclusion constraint over `tstzrange`, which H2 does not support, so the tests w
 database that does not behave like production. The tests also never touch the development
 database: they use their own throwaway container.
 
-Planned: separate unit and integration tests into different Maven phases so the fast ones run
-without Docker, then add coverage (JaCoCo), API tests with Newman and end-to-end tests with
-Playwright (phase 2).
+Planned (phase 2): coverage with JaCoCo, API tests with Newman and end-to-end tests with
+Playwright.
 
 ## Working with Claude Code
 

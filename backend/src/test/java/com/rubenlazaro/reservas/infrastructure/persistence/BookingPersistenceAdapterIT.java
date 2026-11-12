@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class BookingPersistenceAdapterIntegrationTest extends IntegrationTest {
+class BookingPersistenceAdapterIT extends IntegrationTest {
 
     private static final Long USER_ID = 7L;
 

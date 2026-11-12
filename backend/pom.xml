@@ -113,6 +113,20 @@
 					<argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
 				</configuration>
 			</plugin>
+			<!--
+				Runs the integration tests (*IT, which need Docker) in the integration-test phase, so that
+				"mvn test" only runs the fast unit tests. The Spring Boot parent already binds its goals
+				and points it at target/classes. Without this plugin the *IT classes would not run at all.
+				It forks its own JVM, so it needs the same Mockito agent as Surefire: Mockito is initialised
+				in the integration tests too, and without the agent it prints the self-attach warning.
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<argLine>-javaagent:${org.mockito:mockito-core:jar}</argLine>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

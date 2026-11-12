@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ReservasApplicationTests extends IntegrationTest {
+class ReservasApplicationIT extends IntegrationTest {
 
     @Autowired
     private ApplicationContext context;

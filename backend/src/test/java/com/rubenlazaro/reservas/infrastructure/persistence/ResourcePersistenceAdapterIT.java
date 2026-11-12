@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class ResourcePersistenceAdapterIntegrationTest extends IntegrationTest {
+class ResourcePersistenceAdapterIT extends IntegrationTest {
 
     @Autowired
     private ResourceRepository resources;
