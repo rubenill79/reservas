@@ -71,6 +71,7 @@ reservas/
   backend/            Spring Boot (pom.xml aquí)
   frontend/           React
   docker-compose.yml  PostgreSQL
+  README.md           Visión general, arquitectura y decisiones de diseño (en inglés)
 ```
 Paquete base: `com.rubenlazaro.reservas`
 
@@ -97,17 +98,21 @@ Paquete base: `com.rubenlazaro.reservas`
 
 ## Tests
 - Dominio: JUnit 5 + Mockito, sin Spring. Escribir el test antes (TDD) cuando sea posible.
-- Integración: Testcontainers (PostgreSQL).
+- Integración: Testcontainers (PostgreSQL). Heredan de `IntegrationTest`, que levanta un
+  PostgreSQL real en un contenedor y vacía las tablas antes de cada test. Necesitan Docker en
+  marcha; sin él fallan al arrancar (los tests de dominio y de casos de uso no lo necesitan).
+- No usar H2: la regla anti-solape es una restricción `EXCLUDE` de PostgreSQL que H2 no soporta.
 - API: Postman/Newman. E2E: Playwright.
 - El pipeline debe bloquear el merge si fallan tests, cobertura o quality gate.
 
 ## Comandos (desde `backend/`)
-- Tests: `mvn test`
-- Arrancar: `mvn spring-boot:run`
+- Tests: `mvn test` (requiere Docker en marcha; ver la sección Tests)
+- Arrancar: `mvn spring-boot:run` (requiere la base de datos levantada)
+- Swagger UI: `http://localhost:8080/swagger-ui.html`; documento OpenAPI en `/v3/api-docs`
 - Base de datos (desde la raíz): `docker compose up -d`
 
 ## Fases
-1. Base y dominio (Booking, regla anti-solape) + API + Flyway.
+1. ✅ Hecha. Base y dominio (Booking, regla anti-solape) + API + Flyway.
 2. Frontend React y calidad (tests de integración, API y E2E, CI con cobertura).
 3. Seguridad (Spring Security + JWT) y tiempo real (WebSocket).
 4. Eventos (SQS/SNS con LocalStack), servicio de notificaciones y despliegue en AWS con
