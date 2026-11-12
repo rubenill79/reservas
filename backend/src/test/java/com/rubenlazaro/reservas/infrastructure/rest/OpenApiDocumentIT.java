@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * The OpenAPI document is the contract the React client will be generated from, so it is
  * worth a test that the endpoints are in it.
  */
-class OpenApiDocumentTest extends IntegrationTest {
+class OpenApiDocumentIT extends IntegrationTest {
 
     @Autowired
     private MockMvc mvc;

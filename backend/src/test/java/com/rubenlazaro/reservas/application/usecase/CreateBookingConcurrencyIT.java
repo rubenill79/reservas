@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * can all pass it. This proves the database exclusion constraint, translated by the adapter,
  * is what keeps the slot from being double-booked.
  */
-class CreateBookingConcurrencyIntegrationTest extends IntegrationTest {
+class CreateBookingConcurrencyIT extends IntegrationTest {
 
     private static final int ATTEMPTS = 8;
 

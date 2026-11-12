@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class BookingControllerTest extends IntegrationTest {
+class BookingControllerIT extends IntegrationTest {
 
     private static final Long USER_ID = 7L;
 

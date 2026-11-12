@@ -98,15 +98,20 @@ Paquete base: `com.rubenlazaro.reservas`
 
 ## Tests
 - Dominio: JUnit 5 + Mockito, sin Spring. Escribir el test antes (TDD) cuando sea posible.
-- Integración: Testcontainers (PostgreSQL). Heredan de `IntegrationTest`, que levanta un
-  PostgreSQL real en un contenedor y vacía las tablas antes de cada test. Necesitan Docker en
-  marcha; sin él fallan al arrancar (los tests de dominio y de casos de uso no lo necesitan).
+- Unitarios (dominio y casos de uso): clases `*Test`. Los ejecuta Surefire con `mvn test`;
+  no necesitan Docker.
+- Integración: Testcontainers (PostgreSQL). Clases `*IT` que heredan de `IntegrationTest`, que
+  levanta un PostgreSQL real en un contenedor y vacía las tablas antes de cada test. Los ejecuta
+  Failsafe con `mvn verify` y necesitan Docker en marcha; sin él fallan al arrancar.
+- Todo test que use Spring o la base de datos se llama `*IT`. Un test de integración llamado
+  `*Test` correría en `mvn test` y exigiría Docker; uno sin el sufijo correcto no correría nunca.
 - No usar H2: la regla anti-solape es una restricción `EXCLUDE` de PostgreSQL que H2 no soporta.
 - API: Postman/Newman. E2E: Playwright.
 - El pipeline debe bloquear el merge si fallan tests, cobertura o quality gate.
 
 ## Comandos (desde `backend/`)
-- Tests: `mvn test` (requiere Docker en marcha; ver la sección Tests)
+- Tests unitarios: `mvn test` (rápidos, sin Docker)
+- Todos los tests: `mvn verify` (los de integración `*IT` requieren Docker en marcha)
 - Arrancar: `mvn spring-boot:run` (requiere la base de datos levantada)
 - Swagger UI: `http://localhost:8080/swagger-ui.html`; documento OpenAPI en `/v3/api-docs`
 - Base de datos (desde la raíz): `docker compose up -d`
