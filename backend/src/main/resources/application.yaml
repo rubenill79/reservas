@@ -9,3 +9,7 @@ spring:
     hibernate:
       ddl-auto: validate
     open-in-view: false
+  web:
+    # API messages must not depend on the server's language or on Accept-Language.
+    locale: en
+    locale-resolver: fixed
