@@ -1,5 +1,7 @@
 # Reservas
 
+[![CI](https://github.com/rubenill79/reservas/actions/workflows/ci.yml/badge.svg)](https://github.com/rubenill79/reservas/actions/workflows/ci.yml)
+
 Booking platform for resources such as courts or rooms. A REST API built as a **hexagonal modular
 monolith** with Java and Spring Boot, with the central rule enforced where it cannot be bypassed:
 **a resource can never be booked twice for overlapping time ranges**, not even under concurrent requests.
@@ -13,7 +15,7 @@ professional stack end to end and to be able to explain every decision. See
 | Phase | Scope | State |
 |---|---|---|
 | 1 | Domain, overlap rule, PostgreSQL + Flyway, REST API, OpenAPI | Done |
-| 2 | React frontend, CI with coverage and quality gates, API and end-to-end tests | Next |
+| 2 | React frontend, CI with coverage and quality gates, API and end-to-end tests | In progress |
 | 3 | Authentication (Spring Security + JWT) and real-time updates (WebSocket) | Planned |
 | 4 | Events (SQS/SNS), a notifications service, deployment on AWS | Planned |
 
@@ -150,7 +152,8 @@ mvn verify    # unit tests, then integration tests: Docker must be running
 Unit tests are named `*Test` and run in the `test` phase (Surefire). Integration tests are named
 `*IT` and run later, in the `integration-test` phase (Failsafe), so a plain `mvn test` stays fast
 and never needs Docker. The integration tests start a real PostgreSQL 16 in a container with
-Testcontainers and fail at startup if Docker is not available.
+Testcontainers and fail at startup if Docker is not available. GitHub Actions runs `mvn verify`
+on every pull request and on every push to `main`.
 
 | Kind | What it covers | Needs Docker |
 |---|---|---|
@@ -200,5 +203,5 @@ How it is used in practice:
   profile with secrets from environment variables is needed before any deployment. Swagger UI is
   enabled in every environment.
 - **No CORS configuration**, because there is no browser client yet.
-- **No CI yet**: the tests run locally. A GitHub Actions pipeline with quality gates is the first
-  step of phase 2.
+- **The CI is basic**: GitHub Actions builds the project and runs all the tests on every pull
+  request. Coverage reporting and a quality gate (JaCoCo, SonarCloud) are still to come.

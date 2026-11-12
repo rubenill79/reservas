@@ -71,6 +71,7 @@ reservas/
   backend/            Spring Boot (pom.xml aquí)
   frontend/           React
   docker-compose.yml  PostgreSQL
+  .github/workflows/  CI con GitHub Actions (ci.yml ejecuta `mvn verify`)
   README.md           Visión general, arquitectura y decisiones de diseño (en inglés)
 ```
 Paquete base: `com.rubenlazaro.reservas`
