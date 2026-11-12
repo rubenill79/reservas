@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: reservas
+  datasource:
+    url: jdbc:postgresql://localhost:5432/reservas
+    username: reservas
+    password: reservas
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
