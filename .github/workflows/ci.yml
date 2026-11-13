@@ -40,6 +40,15 @@ jobs:
       - name: Build and test
         run: mvn --batch-mode --no-transfer-progress verify
 
+      # The report is generated even when the coverage check fails, which is when it is most useful.
+      - name: Upload coverage report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-report
+          path: backend/target/site/jacoco
+          retention-days: 7
+
       - name: Upload test reports
         if: failure()
         uses: actions/upload-artifact@v7
