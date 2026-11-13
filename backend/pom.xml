@@ -19,8 +19,8 @@
 		<!-- Not managed by Spring Boot. 0.8.14 or later is needed to instrument Java 25 classes. -->
 		<jacoco.version>0.8.16</jacoco.version>
 		<!-- Minimum coverage of the unit and integration tests together. "mvn verify" fails below it. -->
-		<coverage.line.minimum>0.90</coverage.line.minimum>
-		<coverage.branch.minimum>0.80</coverage.branch.minimum>
+		<coverage.line.minimum>0.95</coverage.line.minimum>
+		<coverage.branch.minimum>0.90</coverage.branch.minimum>
 		<!--
 			Empty on purpose. JaCoCo fills it with its agent and the test plugins append their own agents
 			with @{argLine}; if JaCoCo is skipped, the reference resolves to nothing instead of staying literal.

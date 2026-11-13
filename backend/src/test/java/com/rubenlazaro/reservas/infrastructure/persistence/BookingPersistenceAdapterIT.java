@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -72,6 +73,14 @@ class BookingPersistenceAdapterIT extends IntegrationTest {
     @Test
     void findByIdReturnsEmptyWhenThereIsNoSuchBooking() {
         assertThat(bookings.findById(999L)).isEmpty();
+    }
+
+    @Test
+    void aBookingForAResourceThatDoesNotExistFailsAsAnIntegrityErrorNotAsAnOverlap() {
+        // The foreign key rejects it. Only the overlap constraint may be reported as a conflict.
+        assertThatThrownBy(() -> bookings.save(booking(999_999L, 10, 11)))
+                .isInstanceOf(DataIntegrityViolationException.class)
+                .isNotInstanceOf(BookingOverlapException.class);
     }
 
     @Test
