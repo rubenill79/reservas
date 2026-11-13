@@ -107,7 +107,7 @@ Paquete base: `com.rubenlazaro.reservas`
 - Todo test que use Spring o la base de datos se llama `*IT`. Un test de integración llamado
   `*Test` correría en `mvn test` y exigiría Docker; uno sin el sufijo correcto no correría nunca.
 - Cobertura: JaCoCo, unitarios e integración juntos, dentro de `mvn verify`. Mínimos en las
-  propiedades del `pom.xml`: 90 % de líneas y 80 % de ramas; `ReservasApplication` queda excluida.
+  propiedades del `pom.xml`: 95 % de líneas y 90 % de ramas; `ReservasApplication` queda excluida.
   Al medir en local usa `mvn clean verify`, porque el fichero de datos se acumula.
 - No usar H2: la regla anti-solape es una restricción `EXCLUDE` de PostgreSQL que H2 no soporta.
 - API: Postman/Newman. E2E: Playwright.

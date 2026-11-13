@@ -171,8 +171,8 @@ database: they use their own throwaway container.
 ### Coverage
 
 JaCoCo measures the unit and integration tests together. `mvn clean verify` writes the HTML report
-to `backend/target/site/jacoco/index.html` and **fails the build** when line coverage is below 90 %
-or branch coverage is below 80 %. The minimums are properties in `backend/pom.xml`.
+to `backend/target/site/jacoco/index.html` and **fails the build** when line coverage is below 95 %
+or branch coverage is below 90 %. The minimums are properties in `backend/pom.xml`.
 `ReservasApplication`, the Spring Boot entry point that only has a `main` method, is excluded.
 Use `clean` when measuring locally, because the execution data file is appended to and stale data
 would inflate the numbers. The CI uploads the HTML report as a build artifact.

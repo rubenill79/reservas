@@ -6,7 +6,6 @@ import com.rubenlazaro.reservas.domain.BookingOverlapException;
 import com.rubenlazaro.reservas.domain.TimeRange;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DeadlockLoserDataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -37,12 +36,13 @@ class BookingPersistenceAdapter implements BookingRepository {
                 throw new BookingOverlapException(booking.resourceId(), booking.range());
             }
             throw e;
-        } catch (CannotAcquireLockException | DeadlockLoserDataAccessException e) {
+        } catch (CannotAcquireLockException e) {
             // When overlapping rows are inserted at the same instant, each exclusion check waits
             // for the other's uncommitted row, and PostgreSQL breaks the cycle by aborting one
             // transaction with "deadlock detected" instead of an exclusion violation. This insert
             // only waits on bookings that conflict with it, and the surviving one takes the slot,
-            // so for the loser the outcome is the same: the slot is already taken.
+            // so for the loser the outcome is the same: the slot is already taken. Spring reports
+            // it as CannotAcquireLockException; DeadlockLoserDataAccessException is deprecated.
             throw new BookingOverlapException(booking.resourceId(), booking.range());
         }
     }
