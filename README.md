@@ -146,7 +146,7 @@ Run them from `backend/`:
 
 ```bash
 mvn test      # unit tests only: fast, no Docker needed
-mvn verify    # unit tests, then integration tests: Docker must be running
+mvn verify    # unit tests, then integration tests, then the coverage check: Docker must be running
 ```
 
 Unit tests are named `*Test` and run in the `test` phase (Surefire). Integration tests are named
@@ -168,8 +168,17 @@ exclusion constraint over `tstzrange`, which H2 does not support, so the tests w
 database that does not behave like production. The tests also never touch the development
 database: they use their own throwaway container.
 
-Planned (phase 2): coverage with JaCoCo, API tests with Newman and end-to-end tests with
-Playwright.
+### Coverage
+
+JaCoCo measures the unit and integration tests together. `mvn clean verify` writes the HTML report
+to `backend/target/site/jacoco/index.html` and **fails the build** when line coverage is below 90 %
+or branch coverage is below 80 %. The minimums are properties in `backend/pom.xml`.
+`ReservasApplication`, the Spring Boot entry point that only has a `main` method, is excluded.
+Use `clean` when measuring locally, because the execution data file is appended to and stale data
+would inflate the numbers. The CI uploads the HTML report as a build artifact.
+
+Planned (phase 2): SonarCloud as a quality gate on new code, API tests with Newman and end-to-end
+tests with Playwright.
 
 ## Working with Claude Code
 
@@ -203,5 +212,6 @@ How it is used in practice:
   profile with secrets from environment variables is needed before any deployment. Swagger UI is
   enabled in every environment.
 - **No CORS configuration**, because there is no browser client yet.
-- **The CI is basic**: GitHub Actions builds the project and runs all the tests on every pull
-  request. Coverage reporting and a quality gate (JaCoCo, SonarCloud) are still to come.
+- **The quality gate is partial**: GitHub Actions builds the project, runs all the tests and
+  enforces a coverage minimum (JaCoCo) on every pull request. Static analysis and a quality gate
+  on new code (SonarCloud) are still to come.
